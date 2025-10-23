@@ -2,11 +2,12 @@
 interface AppBrandProps {
   name?: string;
   tag?: string;
+  compact?: boolean;
 }
 
-export default function AppBrand({ name = "Mental Health App", tag = "For you and by you" }: AppBrandProps) {
+export default function AppBrand({ name = "Mental Health App", tag = "For you and by you", compact = false }: AppBrandProps) {
   return (
-    <div className="app-brand">
+    <div className={`app-brand ${compact? 'app-brand--compact':''}`}>
       <span className="app-logo" aria-label="Logo salud mental">
         <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="24" cy="24" r="24" fill="#6ee7b7"/>
@@ -14,8 +15,12 @@ export default function AppBrand({ name = "Mental Health App", tag = "For you an
           <path d="M24 28c-3-2-5-3.5-5-6a3 3 0 0 1 6 0 3 3 0 0 1 6 0c0 2.5-2 4-5 6z" fill="#fff"/>
         </svg>
       </span>
-      <div className="app-name">{name}</div>
-      <div className="app-tag">{tag}</div>
+      {!compact && (
+        <>
+          <div className="app-name">{name}</div>
+          <div className="app-tag">{tag}</div>
+        </>
+      )}
     </div>
   );
 }

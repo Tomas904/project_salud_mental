@@ -25,12 +25,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-      // opcional: traer perfil real
-      api.get('/me').then(res => setUser(res.data)).catch(() => {
-        setUser(null)
-        setToken(null)
-        localStorage.removeItem('mh_token')
-      })
+      // Si estamos en modo dev y el token es el token de desarrollo, evitamos
+      // hacer la llamada real al backend (puede no estar corriendo).
+      const isDevToken = import.meta.env && import.meta.env.DEV && token === 'dev-token'
+      if (!isDevToken) {
+        // opcional: traer perfil real
+        api.get('/me').then(res => setUser(res.data)).catch(() => {
+          setUser(null)
+          setToken(null)
+          localStorage.removeItem('mh_token')
+        })
+      } else {
+        // en dev con token falso, dejamos el user tal como está
+      }
+    }
+    else {
+      // Developer convenience: auto-login with a fake user in dev mode so the dashboard can be previewed
+      if (import.meta.env && import.meta.env.DEV) {
+        const fakeToken = 'dev-token'
+        const fakeUser = { id: 'dev', name: 'Dev User', email: 'dev@example.com' }
+        setToken(fakeToken)
+        setUser(fakeUser)
+        try{ localStorage.setItem('mh_token', fakeToken) }catch(e){}
+      }
     }
   }, [token])
 

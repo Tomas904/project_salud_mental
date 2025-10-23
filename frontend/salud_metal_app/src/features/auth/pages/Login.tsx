@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import AppBrand from "../../../components/AppBrand";
+import Mascot from '../../../components/Mascot'
 
 type FormData = { email: string; password: string };
 
@@ -24,45 +25,46 @@ export default function Login() {
 
   return (
     <div className="page-root">
-      <div className="card">
-        <AppBrand />
-        <form onSubmit={handleSubmit(onSubmit)} className="card-form">
-          <h1 className="card-title">Iniciar sesión</h1>
+      <div className="card card--with-mascot">
+        <div className="card-grid">
+          <div>
+            <AppBrand />
+            <form onSubmit={handleSubmit(onSubmit)} className="card-form">
+              <h1 className="card-title">Iniciar sesión</h1>
 
-          <label className="field">
-            <input
-              placeholder="Correo"
-              {...register("email", { required: "Correo requerido" })}
-              className="field-input"
-            />
-            <span className="field-error">
-              {errors.email?.message as string}
-            </span>
-          </label>
+              <label className="field">
+                <input
+                  placeholder="Correo"
+                  {...register("email", { required: "Correo requerido" })}
+                  className="field-input"
+                />
+                <span className="field-error">{errors.email?.message as string}</span>
+              </label>
 
-          <label className="field">
-            <input
-              type="password"
-              placeholder="Contraseña"
-              {...register("password", { required: "Contraseña requerida" })}
-              className="field-input"
-            />
-            <span className="field-error">
-              {errors.password?.message as string}
-            </span>
-          </label>
+              <label className="field">
+                <input
+                  type="password"
+                  placeholder="Contraseña"
+                  {...register("password", { required: "Contraseña requerida" })}
+                  className="field-input"
+                />
+                <span className="field-error">{errors.password?.message as string}</span>
+              </label>
 
-          <button type="submit" disabled={isSubmitting} className="primary-btn">
-            {isSubmitting ? "Cargando..." : "Entrar"}
-          </button>
+              <button type="submit" disabled={isSubmitting} className="primary-btn">
+                {isSubmitting ? "Cargando..." : "Entrar"}
+              </button>
 
-          <p className="card-footer">
-            ¿No tienes cuenta?{" "}
-            <Link to="/register" className="link">
-              Regístrate
-            </Link>
-          </p>
-        </form>
+              <p className="card-footer">
+                ¿No tienes cuenta? <Link to="/register" className="link">Regístrate</Link>
+              </p>
+            </form>
+          </div>
+          <div className="card-mascot">
+            <Mascot message="Hola, me alegra verte!" />
+          </div>
+        </div>
+        
       </div>
     </div>
   );

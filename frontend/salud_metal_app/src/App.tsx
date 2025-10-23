@@ -3,9 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './features/auth/pages/Login'
 import Register from './features/auth/pages/Register'
 import ProtectedRoute from './routes/ProtectedRoute'
-
-// Placeholder home
-const Home = () => <div className="p-6">Bienvenido a la app de apoyo en salud mental</div>
+import Dashboard from './features/dashboard/Dashboard'
 
 export default function App() {
   return (
@@ -17,7 +15,7 @@ export default function App() {
         path="/"
         element={
           <ProtectedRoute>
-            <Home />
+            <Dashboard />
           </ProtectedRoute>
         }
       />
