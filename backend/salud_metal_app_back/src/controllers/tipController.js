@@ -1,3 +1,4 @@
+const asyncHandler = require('../utils/asyncHandler');
 const { Tip, FavoriteTip } = require('../models');
 
 const getTips = asyncHandler(async (req, res) => {

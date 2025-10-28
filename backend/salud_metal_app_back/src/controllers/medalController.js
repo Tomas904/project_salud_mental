@@ -1,3 +1,4 @@
+const asyncHandler = require('../utils/asyncHandler');
 const { getMedalInfo } = require('../utils/medalHelper');
 
 const getMyMedals = asyncHandler(async (req, res) => {

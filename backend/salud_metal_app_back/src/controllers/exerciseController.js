@@ -1,3 +1,4 @@
+const asyncHandler = require('../utils/asyncHandler');
 const { Exercise, UserExercise } = require('../models');
 
 const getExercises = asyncHandler(async (req, res) => {

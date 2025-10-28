@@ -1,3 +1,4 @@
+const asyncHandler = require('../utils/asyncHandler');
 const { Challenge, UserChallenge, Medal } = require('../models');
 const { checkAndAwardMedals } = require('../utils/medalHelper');
 

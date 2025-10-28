@@ -1,3 +1,4 @@
+const asyncHandler = require('../utils/asyncHandler');
 const { sequelize } = require('../config/database');
 const { getWeekDates, getMonthDates } = require('../utils/dateHelpers');
 

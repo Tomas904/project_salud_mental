@@ -1,3 +1,4 @@
+const asyncHandler = require('../utils/asyncHandler');
 const globalSearch = asyncHandler(async (req, res) => {
   const { q, type = 'all' } = req.query;
   const userId = req.user.id;

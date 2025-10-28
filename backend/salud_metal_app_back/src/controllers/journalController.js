@@ -1,3 +1,4 @@
+const asyncHandler = require('../utils/asyncHandler');
 const { JournalEntry } = require('../models');
 const { Op } = require('sequelize');
 

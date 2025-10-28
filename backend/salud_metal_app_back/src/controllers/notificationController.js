@@ -1,3 +1,4 @@
+const asyncHandler = require('../utils/asyncHandler');
 const { NotificationSettings } = require('../models');
 
 const getSettings = asyncHandler(async (req, res) => {

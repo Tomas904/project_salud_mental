@@ -33,7 +33,7 @@ const connectDB = async () => {
     
     // Sync models in development
     if (config.env === 'development') {
-      await sequelize.sync({ alter: true });
+      await sequelize.sync();
       console.log('✅ Database synchronized');
     }
   } catch (error) {
