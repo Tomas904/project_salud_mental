@@ -15,10 +15,19 @@ export default function Sidebar(){
   const [mobileOpen, setMobileOpen] = useState(false)
   const [savedCollapsed, setSavedCollapsed] = useState<boolean | null>(null)
 
-  // prevent scrolling when mobile drawer open
+  // prevent scrolling when mobile drawer open and add body class for push layout
   useEffect(()=>{
-    if(mobileOpen){ document.body.style.overflow = 'hidden' } else { document.body.style.overflow = '' }
-    return ()=>{ document.body.style.overflow = '' }
+    if(mobileOpen){
+      document.body.style.overflow = 'hidden'
+      document.body.classList.add('drawer-open')
+    } else {
+      document.body.style.overflow = ''
+      document.body.classList.remove('drawer-open')
+    }
+    return ()=>{
+      document.body.style.overflow = ''
+      document.body.classList.remove('drawer-open')
+    }
   },[mobileOpen])
 
   // close on Escape
@@ -57,14 +66,18 @@ export default function Sidebar(){
 
   // El cierre de sesión se maneja ahora desde el header superior (no en el sidebar)
 
+  const onNavigate = () => {
+    if(mobileOpen) closeMobile()
+  }
+
   return (
     <>
       {/* mobile hamburger - visible via CSS on small screens */}
-      <button className="mobile-hamburger" aria-label="Open menu" onClick={openMobile}>
+      <button className="mobile-hamburger" aria-label="Abrir menú" aria-controls="app-sidebar" aria-expanded={mobileOpen} onClick={openMobile}>
         <span aria-hidden>☰</span>
       </button>
 
-      <aside className={`sidebar ${collapsed? 'sidebar--collapsed':''} ${mobileOpen? 'sidebar--open':''}`} role="navigation" aria-label="Primary">
+      <aside id="app-sidebar" className={`sidebar ${collapsed? 'sidebar--collapsed':''} ${mobileOpen? 'sidebar--open':''}`} role="navigation" aria-label="Primary">
         <div className="sidebar-header">
           <div className="sidebar-brand">
             {collapsed ? <div className="sidebar-logo" aria-hidden /> : <AppBrand compact={false} tag='' />}
@@ -92,6 +105,7 @@ export default function Sidebar(){
             data-label={item.label}
             title={item.label}
             aria-current={undefined}
+            onClick={onNavigate}
           >
             <span className="sidebar-link-icon" aria-hidden>{item.icon}</span>
             <span className="sidebar-link-label">{item.label}</span>
@@ -104,7 +118,7 @@ export default function Sidebar(){
       </aside>
 
       {/* overlay when in mobile open state */}
-      {mobileOpen && <div className="sidebar-overlay" onClick={closeMobile} aria-hidden />}
+      {mobileOpen && <div className="sidebar-overlay is-open" onClick={closeMobile} aria-hidden />}
     </>
   )
 }
