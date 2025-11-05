@@ -1,8 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import AppBrand from '../AppBrand'
+import { HomeIcon, SmileIcon, JournalIcon, DumbbellIcon, TargetIcon, BulbIcon, ChartIcon } from './icons.tsx'
 
 export default function Sidebar(){
+  
   const [collapsed, setCollapsed] = useState<boolean>(()=>{
     try{ return localStorage.getItem('sidebar-collapsed') === '1' }catch(e){ return false }
   })
@@ -27,15 +29,17 @@ export default function Sidebar(){
   },[])
 
 
-  type NavItem = { to: string; label: string; icon: string }
+  type NavItem = { to: string; label: string; icon: React.ReactNode }
 
   const NAV_ITEMS: NavItem[] = [
-    { to: '/dashboard', label: 'Dashboard', icon: '🏠' },
-    { to: '/graph', label: 'Gráfico', icon: '📈' },
-    { to: '/journal', label: 'Desahogo', icon: '📝' },
-    { to: '/exercises', label: 'Ejercicios', icon: '💪' },
-    { to: '/challenges', label: 'Retos', icon: '🎯' },
-    { to: '/tips', label: 'Consejos', icon: '💡' },
+    { to: '/dashboard', label: 'Dashboard', icon: <HomeIcon /> },
+    { to: '/graph', label: 'Gráfico', icon: <ChartIcon /> },
+    { to: '/emotions', label: 'Emociones', icon: <SmileIcon /> },
+    { to: '/journal', label: 'Zona Desahogo', icon: <JournalIcon /> },
+    { to: '/exercises', label: 'Ejercicios', icon: <DumbbellIcon /> },
+    { to: '/challenges', label: 'Retos', icon: <TargetIcon /> },
+    { to: '/tips', label: 'Consejos', icon: <BulbIcon /> },
+    // Vistas eliminadas: Medallas, Estadísticas, Notificaciones, Buscar
   ]
 
   const openMobile = () => {
@@ -51,6 +55,8 @@ export default function Sidebar(){
     if(savedCollapsed !== null){ setCollapsed(savedCollapsed); setSavedCollapsed(null) }
   }
 
+  // El cierre de sesión se maneja ahora desde el header superior (no en el sidebar)
+
   return (
     <>
       {/* mobile hamburger - visible via CSS on small screens */}
@@ -59,28 +65,23 @@ export default function Sidebar(){
       </button>
 
       <aside className={`sidebar ${collapsed? 'sidebar--collapsed':''} ${mobileOpen? 'sidebar--open':''}`} role="navigation" aria-label="Primary">
-        <div className="sidebar-brand">
-          {collapsed ? <div className="sidebar-logo" aria-hidden /> : <AppBrand compact={false} tag='' />}
-        </div>
-
-        <div className="sidebar-top">
+        <div className="sidebar-header">
+          <div className="sidebar-brand">
+            {collapsed ? <div className="sidebar-logo" aria-hidden /> : <AppBrand compact={false} tag='' />}
+          </div>
           <button
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             aria-expanded={!collapsed}
             className="sidebar-toggle"
             onClick={()=>setCollapsed(s=>!s)}
+            title={collapsed ? 'Expandir menú' : 'Colapsar menú'}
           >
             <span className="sidebar-toggle-icon" aria-hidden>{collapsed ? '❯' : '❮'}</span>
             <span className="sr-only">{collapsed ? 'Expand sidebar' : 'Collapse sidebar'}</span>
           </button>
         </div>
 
-        {!collapsed && (
-          <div className="sidebar-user">
-            <div className="user-avatar">J</div>
-            <div className="user-name">Juan</div>
-          </div>
-        )}
+        {/* Se retira la sección de usuario del sidebar, el avatar/logout vivirán en el header superior derecho */}
 
         <nav className="sidebar-nav">
         {NAV_ITEMS.map(item=> (
@@ -97,6 +98,8 @@ export default function Sidebar(){
           </NavLink>
         ))}
       </nav>
+
+      {/* Se eliminó el botón de salir del pie del sidebar */}
 
       </aside>
 

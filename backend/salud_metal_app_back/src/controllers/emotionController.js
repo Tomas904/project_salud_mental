@@ -171,23 +171,17 @@ const deleteEmotion = asyncHandler(async (req, res) => {
 
 // Helper functions
 const calculatePositiveScore = (emotionType, intensity) => {
+  // Regla: solo cuentan como positivas las emociones positivas; el resto no suma
   const positiveEmotions = ['feliz', 'tranquilo'];
-  if (positiveEmotions.includes(emotionType)) {
-    return intensity;
-  } else if (emotionType === 'neutral') {
-    return intensity * 0.5;
-  }
-  return 10 - intensity;
+  if (positiveEmotions.includes(emotionType)) return intensity;
+  return 0;
 };
 
 const calculateNegativeScore = (emotionType, intensity) => {
+  // Regla: solo cuentan como negativas las emociones negativas; el resto no suma
   const negativeEmotions = ['triste', 'molesto', 'ansioso'];
-  if (negativeEmotions.includes(emotionType)) {
-    return intensity;
-  } else if (emotionType === 'neutral') {
-    return intensity * 0.5;
-  }
-  return 10 - intensity;
+  if (negativeEmotions.includes(emotionType)) return intensity;
+  return 0;
 };
 
 const getMostFrequentEmotion = (emotions) => {

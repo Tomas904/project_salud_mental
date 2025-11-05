@@ -1,6 +1,8 @@
 const asyncHandler = require('../utils/asyncHandler');
-const { sequelize } = require('../config/database');
-const { getWeekDates, getMonthDates } = require('../utils/dateHelpers');
+const ApiResponse = require('../utils/ApiResponse');
+const { Op } = require('sequelize');
+const { Emotion, UserChallenge, Medal, JournalEntry, UserExercise } = require('../models');
+const { getWeekDates, getMonthDates, getDayName } = require('../utils/dateHelpers');
 
 const getDashboard = asyncHandler(async (req, res) => {
   const userId = req.user.id;
@@ -139,5 +141,30 @@ const getMonthly = asyncHandler(async (req, res) => {
     }
   }));
 });
+
+// Helpers locales (mismas reglas que en emotionController)
+const calculatePositiveScore = (emotionType, intensity) => {
+  // Igual que en emotionController: solo suman las positivas
+  const positiveEmotions = ['feliz', 'tranquilo'];
+  if (positiveEmotions.includes(emotionType)) return intensity;
+  return 0;
+};
+
+const calculateNegativeScore = (emotionType, intensity) => {
+  // Igual que en emotionController: solo suman las negativas
+  const negativeEmotions = ['triste', 'molesto', 'ansioso'];
+  if (negativeEmotions.includes(emotionType)) return intensity;
+  return 0;
+};
+
+const getMostFrequentEmotion = (emotions) => {
+  if (!emotions || emotions.length === 0) return null;
+  const frequency = {};
+  emotions.forEach(e => {
+    const key = e.emotionType || e.emotion_type || null;
+    if (key) frequency[key] = (frequency[key] || 0) + 1;
+  });
+  return Object.keys(frequency).reduce((a, b) => frequency[a] > frequency[b] ? a : b, Object.keys(frequency)[0]);
+};
 
 module.exports = { getDashboard, getMonthly };

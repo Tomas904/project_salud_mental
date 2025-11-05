@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import AppBrand from "../../../components/AppBrand";
-import Mascot from '../../../components/Mascot'
+ import Mascot from '../../../components/Mascot'
 
 type FormData = { email: string; password: string };
 
@@ -18,7 +18,7 @@ export default function Login() {
       await login(data.email, data.password);
       navigate("/");
     } catch (err: any) {
-      const msg = err?.response?.data?.message || "Error al iniciar sesión";
+      const msg = err?.response?.data?.error?.message || err?.response?.data?.message || "Error al iniciar sesión";
       alert(msg);
     }
   };

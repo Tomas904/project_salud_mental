@@ -4,6 +4,13 @@ import Login from './features/auth/pages/Login'
 import Register from './features/auth/pages/Register'
 import ProtectedRoute from './routes/ProtectedRoute'
 import Dashboard from './features/dashboard/Dashboard'
+import Emotions from './features/emotions/Emotions'
+import Journal from './features/journal/Journal'
+import Graph from './features/graph/Graph'
+import Challenges from './features/challenges/Challenges'
+import Tips from './features/tips/Tips'
+import Exercises from './features/exercises/Exercises'
+// Vistas eliminadas: Medallas, Notificaciones, Estadísticas, Buscar
 
 export default function App() {
   return (
@@ -19,6 +26,21 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/emotions" element={<ProtectedRoute><Emotions /></ProtectedRoute>} />
+  <Route path="/graph" element={<ProtectedRoute><Graph /></ProtectedRoute>} />
+      <Route path="/journal" element={<ProtectedRoute><Journal /></ProtectedRoute>} />
+      <Route path="/challenges" element={<ProtectedRoute><Challenges /></ProtectedRoute>} />
+      <Route path="/tips" element={<ProtectedRoute><Tips /></ProtectedRoute>} />
+      <Route path="/exercises" element={<ProtectedRoute><Exercises /></ProtectedRoute>} />
+  { /* Rutas eliminadas: /medals, /notifications, /stats/*, /search */ }
 
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>

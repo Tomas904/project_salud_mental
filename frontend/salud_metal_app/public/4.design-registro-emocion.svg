@@ -1,0 +1,81 @@
+<svg viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1440" height="900" fill="#F9FAFB"/>
+  
+  <!-- Sidebar -->
+  <rect width="256" height="900" fill="white"/>
+  <rect x="256" width="1" height="900" fill="#E5E7EB"/>
+  
+  <!-- Logo in Sidebar -->
+  <circle cx="64" cy="50" r="20" fill="#3B82F6"/>
+  <text x="95" y="58" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#111827">Logo</text>
+  
+  <!-- Sidebar Menu Items -->
+  <g>
+    <rect x="16" y="120" width="224" height="48" rx="8" fill="#F3F4F6"/>
+    <text x="56" y="149" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#111827">Dashboard</text>
+    
+    <text x="56" y="201" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#6B7280">Gráfico</text>
+    <text x="56" y="253" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#6B7280">Desahogo</text>
+    <text x="56" y="305" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#6B7280">Ejercicios</text>
+    <text x="56" y="357" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#6B7280">Retos</text>
+    <text x="56" y="409" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#6B7280">Consejos</text>
+  </g>
+  
+  <!-- Top Bar -->
+  <rect x="256" width="1184" height="80" fill="white"/>
+  <rect x="256" y="80" width="1184" height="1" fill="#E5E7EB"/>
+  <text x="1300" y="50" font-family="Arial, sans-serif" font-size="16" font-weight="500" fill="#374151">Juan</text>
+  <circle cx="1370" cy="40" r="20" fill="#E5E7EB"/>
+  
+  <!-- Main Content -->
+  <g transform="translate(400, 150)">
+    <!-- Title -->
+    <text x="350" y="0" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#111827" text-anchor="middle">Registrar emoción del día</text>
+    <text x="350" y="35" font-family="Arial, sans-serif" font-size="20" fill="#6B7280" text-anchor="middle">Selecciona cómo te sientes ahora mismo</text>
+    
+    <!-- Emotions Grid -->
+    <g transform="translate(0, 80)">
+      <!-- Row 1 -->
+      <g>
+        <!-- Feliz -->
+        <rect x="0" y="0" width="100" height="120" rx="16" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+        <text x="50" y="55" font-family="Arial, sans-serif" font-size="48" text-anchor="middle">😊</text>
+        <text x="50" y="100" font-family="Arial, sans-serif" font-size="13" font-weight="500" fill="#374151" text-anchor="middle">Feliz</text>
+        
+        <!-- Tranquilo -->
+        <rect x="120" y="0" width="100" height="120" rx="16" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+        <text x="170" y="55" font-family="Arial, sans-serif" font-size="48" text-anchor="middle">😌</text>
+        <text x="170" y="100" font-family="Arial, sans-serif" font-size="13" font-weight="500" fill="#374151" text-anchor="middle">Tranquilo</text>
+        
+        <!-- Neutral -->
+        <rect x="240" y="0" width="100" height="120" rx="16" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+        <text x="290" y="55" font-family="Arial, sans-serif" font-size="48" text-anchor="middle">😐</text>
+        <text x="290" y="100" font-family="Arial, sans-serif" font-size="13" font-weight="500" fill="#374151" text-anchor="middle">Neutral</text>
+        
+        <!-- Triste -->
+        <rect x="360" y="0" width="100" height="120" rx="16" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+        <text x="410" y="55" font-family="Arial, sans-serif" font-size="48" text-anchor="middle">😞</text>
+        <text x="410" y="100" font-family="Arial, sans-serif" font-size="13" font-weight="500" fill="#374151" text-anchor="middle">Triste</text>
+        
+        <!-- Molesto -->
+        <rect x="480" y="0" width="100" height="120" rx="16" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+        <text x="530" y="55" font-family="Arial, sans-serif" font-size="48" text-anchor="middle">😠</text>
+        <text x="530" y="100" font-family="Arial, sans-serif" font-size="13" font-weight="500" fill="#374151" text-anchor="middle">Molesto</text>
+        
+        <!-- Ansioso -->
+        <rect x="600" y="0" width="100" height="120" rx="16" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+        <text x="650" y="55" font-family="Arial, sans-serif" font-size="48" text-anchor="middle">😥</text>
+        <text x="650" y="100" font-family="Arial, sans-serif" font-size="13" font-weight="500" fill="#374151" text-anchor="middle">Ansioso</text>
+      </g>
+    </g>
+    
+    <!-- Input Field -->
+    <rect x="0" y="240" width="700" height="70" rx="16" fill="white" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="20" y="282" font-family="Arial, sans-serif" font-size="18" fill="#9CA3AF">¿Por qué te sientes así?</text>
+    
+    <!-- Save Button -->
+    <rect x="175" y="340" width="350" height="60" rx="12" fill="#3B82F6"/>
+    <text x="350" y="376" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="white" text-anchor="middle">Guardar emoción</text>
+  </g>
+</svg>

@@ -10,16 +10,24 @@ type FormData = { name: string; email: string; password: string; confirmPassword
 export default function Register() {
   const { register: signup } = useAuth()
   const navigate = useNavigate()
-  const { register, handleSubmit, formState } = useForm<FormData>()
+  const { register, handleSubmit, formState, setError, getValues } = useForm<FormData>()
   const { errors, isSubmitting } = formState
 
   const onSubmit = async (data: FormData) => {
-    if (data.password !== data.confirmPassword) return alert('Las contraseñas no coinciden')
     try {
       await signup({ name: data.name, email: data.email, password: data.password })
       navigate('/')
     } catch (err: any) {
-      const msg = err?.response?.data?.message || 'Error registrando usuario'
+      const api = err?.response?.data
+      const details = api?.error?.details
+      if (details && typeof details === 'object') {
+        // Mapear errores de validación del backend a los campos
+        Object.entries(details).forEach(([field, message]) => {
+          setError(field as keyof FormData, { type: 'server', message: String(message) })
+        })
+        return
+      }
+      const msg = api?.error?.message || api?.message || 'Error registrando usuario'
       alert(msg)
     }
   }
@@ -36,7 +44,11 @@ export default function Register() {
               <label className="field">
                 <input
                   placeholder="Nombre"
-                  {...register('name', { required: 'Nombre requerido' })}
+                  {...register('name', {
+                    required: 'Nombre requerido',
+                    minLength: { value: 2, message: 'Mínimo 2 caracteres' },
+                    maxLength: { value: 100, message: 'Máximo 100 caracteres' }
+                  })}
                   className="field-input"
                 />
                 <span className="field-error">{errors.name?.message as string}</span>
@@ -45,7 +57,10 @@ export default function Register() {
               <label className="field">
                 <input
                   placeholder="Correo"
-                  {...register('email', { required: 'Correo requerido' })}
+                  {...register('email', {
+                    required: 'Correo requerido',
+                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Email inválido' }
+                  })}
                   className="field-input"
                 />
                 <span className="field-error">{errors.email?.message as string}</span>
@@ -55,7 +70,14 @@ export default function Register() {
                 <input
                   type="password"
                   placeholder="Contraseña"
-                  {...register('password', { required: 'Contraseña requerida', minLength: 6 })}
+                  {...register('password', {
+                    required: 'Contraseña requerida',
+                    minLength: { value: 8, message: 'Mínimo 8 caracteres' },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+                      message: 'Debe incluir mayúsculas, minúsculas y números'
+                    }
+                  })}
                   className="field-input"
                 />
                 <span className="field-error">{errors.password?.message as string}</span>
@@ -65,7 +87,10 @@ export default function Register() {
                 <input
                   type="password"
                   placeholder="Confirmar contraseña"
-                  {...register('confirmPassword', { required: 'Confirma tu contraseña' })}
+                  {...register('confirmPassword', {
+                    required: 'Confirma tu contraseña',
+                    validate: (val) => val === getValues('password') || 'Las contraseñas no coinciden'
+                  })}
                   className="field-input"
                 />
                 <span className="field-error">{errors.confirmPassword?.message as string}</span>

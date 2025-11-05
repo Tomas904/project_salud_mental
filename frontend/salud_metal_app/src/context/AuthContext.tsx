@@ -1,11 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { api } from '../services/api'
+import { authService } from '../services/auth'
+import { usersService, type UserProfile } from '../services/users'
 
-type User = {
-  id?: string
-  name?: string
-  email: string
-}
+type User = UserProfile
 
 type AuthContextType = {
   user: User | null
@@ -25,35 +23,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-      // Si estamos en modo dev y el token es el token de desarrollo, evitamos
-      // hacer la llamada real al backend (puede no estar corriendo).
-      const isDevToken = import.meta.env && import.meta.env.DEV && token === 'dev-token'
-      if (!isDevToken) {
-        // opcional: traer perfil real
-        api.get('/me').then(res => setUser(res.data)).catch(() => {
-          setUser(null)
-          setToken(null)
-          localStorage.removeItem('mh_token')
-        })
-      } else {
-        // en dev con token falso, dejamos el user tal como está
-      }
-    }
-    else {
-      // Developer convenience: auto-login with a fake user in dev mode so the dashboard can be previewed
-      if (import.meta.env && import.meta.env.DEV) {
-        const fakeToken = 'dev-token'
-        const fakeUser = { id: 'dev', name: 'Dev User', email: 'dev@example.com' }
-        setToken(fakeToken)
-        setUser(fakeUser)
-        try{ localStorage.setItem('mh_token', fakeToken) }catch(e){}
-      }
+      // Traer perfil real; si falla, limpiar sesión
+      usersService.getMe().then(setUser).catch(() => {
+        setUser(null)
+        setToken(null)
+        localStorage.removeItem('mh_token')
+      })
+    } else {
+      // Sin token: estado desautenticado; no auto-login de desarrollo
     }
   }, [token])
 
   const login = async (email: string, password: string) => {
-    const res = await api.post('/auth/login', { email, password })
-    const { token: t, user: u } = res.data
+    const { token: t, user: u } = await authService.login({ email, password })
     setToken(t)
     setUser(u)
     localStorage.setItem('mh_token', t)
@@ -61,8 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const register = async (payload: { name: string; email: string; password: string }) => {
-    const res = await api.post('/auth/register', payload)
-    const { token: t, user: u } = res.data
+    const { token: t, user: u } = await authService.register(payload)
     setToken(t)
     setUser(u)
     localStorage.setItem('mh_token', t)
@@ -70,6 +51,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const logout = () => {
+    // Hacer best-effort logout
+    authService.logout().catch(() => {})
     setToken(null)
     setUser(null)
     localStorage.removeItem('mh_token')

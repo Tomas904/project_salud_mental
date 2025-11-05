@@ -1,4 +1,5 @@
 const asyncHandler = require('../utils/asyncHandler');
+const ApiResponse = require('../utils/ApiResponse');
 const { NotificationSettings } = require('../models');
 
 const getSettings = asyncHandler(async (req, res) => {

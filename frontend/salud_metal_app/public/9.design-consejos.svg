@@ -1,0 +1,94 @@
+<svg viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1440" height="900" fill="#F9FAFB"/>
+  
+  <!-- Sidebar -->
+  <rect width="256" height="900" fill="white"/>
+  <rect x="256" width="1" height="900" fill="#E5E7EB"/>
+  
+  <!-- Logo -->
+  <circle cx="64" cy="50" r="20" fill="#3B82F6"/>
+  <text x="95" y="58" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#111827">Logo</text>
+  
+  <!-- Sidebar Menu -->
+  <text x="56" y="149" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#6B7280">Dashboard</text>
+  <text x="56" y="201" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#6B7280">Gráfico</text>
+  <text x="56" y="253" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#6B7280">Desahogo</text>
+  <text x="56" y="305" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#6B7280">Ejercicios</text>
+  <text x="56" y="357" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#6B7280">Retos</text>
+  <rect x="16" y="378" width="224" height="48" rx="8" fill="#F3F4F6"/>
+  <text x="56" y="409" font-family="Arial, sans-serif" font-size="15" font-weight="500" fill="#111827">Consejos</text>
+  
+  <!-- Top Bar -->
+  <rect x="256" width="1184" height="80" fill="white"/>
+  <rect x="256" y="80" width="1184" height="1" fill="#E5E7EB"/>
+  <text x="1300" y="50" font-family="Arial, sans-serif" font-size="16" font-weight="500" fill="#374151">Juan</text>
+  <circle cx="1370" cy="40" r="20" fill="#E5E7EB"/>
+  
+  <!-- Main Content -->
+  <g transform="translate(400, 120)">
+    <!-- Title -->
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="30" font-weight="bold" fill="#111827">Consejos de Bienestar</text>
+    
+    <!-- Tip Card 1 -->
+    <g transform="translate(0, 50)">
+      <rect x="0" y="0" width="800" height="110" rx="16" fill="white" filter="url(#shadow6)"/>
+      <text x="32" y="40" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#111827">Duerme 7-8 horas</text>
+      <text x="32" y="70" font-family="Arial, sans-serif" font-size="15" fill="#6B7280">El sueño adecuado es fundamental para tu salud mental y física.</text>
+      
+      <!-- Heart Icon -->
+      <path d="M745,35 Q745,25 755,25 Q765,25 765,35 Q765,45 755,55 L745,45 Q735,45 735,35 Q735,25 745,25 Z" 
+            fill="none" stroke="#9CA3AF" stroke-width="2"/>
+    </g>
+    
+    <!-- Tip Card 2 -->
+    <g transform="translate(0, 180)">
+      <rect x="0" y="0" width="800" height="110" rx="16" fill="white" filter="url(#shadow6)"/>
+      <text x="32" y="40" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#111827">Mantén contacto social</text>
+      <text x="32" y="70" font-family="Arial, sans-serif" font-size="15" fill="#6B7280">Las relaciones positivas son clave para el bienestar emocional.</text>
+      
+      <!-- Heart Icon -->
+      <path d="M745,35 Q745,25 755,25 Q765,25 765,35 Q765,45 755,55 L745,45 Q735,45 735,35 Q735,25 745,25 Z" 
+            fill="none" stroke="#9CA3AF" stroke-width="2"/>
+    </g>
+    
+    <!-- Tip Card 3 -->
+    <g transform="translate(0, 310)">
+      <rect x="0" y="0" width="800" height="110" rx="16" fill="white" filter="url(#shadow6)"/>
+      <text x="32" y="40" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#111827">Practica la gratitud</text>
+      <text x="32" y="70" font-family="Arial, sans-serif" font-size="15" fill="#6B7280">Reconocer lo positivo mejora tu perspectiva y estado de ánimo.</text>
+      
+      <!-- Heart Icon -->
+      <path d="M745,35 Q745,25 755,25 Q765,25 765,35 Q765,45 755,55 L745,45 Q735,45 735,35 Q735,25 745,25 Z" 
+            fill="none" stroke="#9CA3AF" stroke-width="2"/>
+    </g>
+    
+    <!-- Tip Card 4 -->
+    <g transform="translate(0, 440)">
+      <rect x="0" y="0" width="800" height="110" rx="16" fill="white" filter="url(#shadow6)"/>
+      <text x="32" y="40" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#111827">Haz ejercicio regularmente</text>
+      <text x="32" y="70" font-family="Arial, sans-serif" font-size="15" fill="#6B7280">La actividad física libera endorfinas que mejoran tu humor.</text>
+      
+      <!-- Heart Icon -->
+      <path d="M745,35 Q745,25 755,25 Q765,25 765,35 Q765,45 755,55 L745,45 Q735,45 735,35 Q735,25 745,25 Z" 
+            fill="none" stroke="#9CA3AF" stroke-width="2"/>
+    </g>
+    
+    <!-- Tip Card 5 -->
+    <g transform="translate(0, 570)">
+      <rect x="0" y="0" width="800" height="110" rx="16" fill="white" filter="url(#shadow6)"/>
+      <text x="32" y="40" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#111827">Limita el tiempo en redes</text>
+      <text x="32" y="70" font-family="Arial, sans-serif" font-size="15" fill="#6B7280">Desconectarte ayuda a reducir la ansiedad y el estrés.</text>
+      
+      <!-- Heart Icon (Filled - Favorite) -->
+      <path d="M745,35 Q745,25 755,25 Q765,25 765,35 Q765,45 755,55 L745,45 Q735,45 735,35 Q735,25 745,25 Z" 
+            fill="#EF4444" stroke="#EF4444" stroke-width="2"/>
+    </g>
+  </g>
+  
+  <defs>
+    <filter id="shadow6">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+</svg>
