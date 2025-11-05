@@ -1,4 +1,6 @@
 const asyncHandler = require('../utils/asyncHandler');
+const ApiResponse = require('../utils/ApiResponse');
+const ApiError = require('../utils/ApiError');
 const { Challenge, UserChallenge, Medal } = require('../models');
 const { checkAndAwardMedals } = require('../utils/medalHelper');
 
@@ -11,7 +13,8 @@ const getChallenges = asyncHandler(async (req, res) => {
 
   const challenges = await Challenge.findAll({
     where,
-    order: [['createdAt', 'DESC']]
+    // Evitar ordenar por createdAt para no depender de columnas de timestamp
+    order: [['title', 'ASC']]
   });
 
   res.json(ApiResponse.success({ challenges }));

@@ -6,13 +6,13 @@ export default function Tips(){
   const [tips, setTips] = useState<Tip[]>([])
   const [favorites, setFavorites] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [category, setCategory] = useState<string>('')
+  // filtro eliminado
 
   const load = async () => {
     setLoading(true)
     try{
       const [t, f] = await Promise.all([
-        tipsService.list(category ? { category } : undefined),
+        tipsService.list(),
         tipsService.favorites()
       ])
       setTips(t.tips)
@@ -20,7 +20,7 @@ export default function Tips(){
     }finally{ setLoading(false) }
   }
 
-  useEffect(()=>{ load() }, [category])
+  useEffect(()=>{ load() }, [])
 
   const isFav = (tipId: string) => favorites.some(f => f.tipId === tipId)
   const toggleFav = async (tipId: string) => {
@@ -29,36 +29,30 @@ export default function Tips(){
     await load()
   }
 
-  const categories = ['', 'sueño','social','gratitud','ejercicio','digital','nutricion','mindfulness']
-
   return (
-    <PageLayout title="Consejos">
-      <section className="stat-card" style={{marginBottom:16}}>
-        <div style={{display:'flex', gap:10, alignItems:'center'}}>
-          <label>Filtrar por categoría:</label>
-          <select className="field-input" value={category} onChange={(e)=> setCategory(e.target.value)} style={{maxWidth:240}}>
-            {categories.map(c => <option key={c} value={c}>{c || 'Todas'}</option>)}
-          </select>
-        </div>
-      </section>
-
+    <PageLayout title="Consejos de Bienestar">
       <section className="stat-card">
-        <h3 className="stat-card-title">Lista</h3>
         {loading ? <div className="chart-placeholder">Cargando...</div> : (
-          <div className="quick-actions">
+          <ul className="tips-list">
             {tips.map(t => (
-              <div key={t.id} className="quick-action" style={{alignItems:'flex-start'}}>
-                <div className="quick-action-label" style={{display:'flex', gap:8, alignItems:'center'}}>
-                  <span style={{fontSize:24}}>{t.icon || '💡'}</span>
-                  <span>{t.title}</span>
+              <li key={t.id} className="tip-row">
+                <div className="tip-content">
+                  <div className="tip-title">{t.title}</div>
+                  <div className="tip-desc">{t.description}</div>
                 </div>
-                <div className="quick-action-desc">{t.description}</div>
-                <button className="sidebar-link" onClick={()=> toggleFav(t.id)} style={{marginTop:8}}>
-                  {isFav(t.id) ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+                <button
+                  aria-label={isFav(t.id)? 'Quitar de favoritos':'Agregar a favoritos'}
+                  className={`heart-btn ${isFav(t.id)?'is-fav':''}`}
+                  onClick={()=> toggleFav(t.id)}
+                  title={isFav(t.id)? 'Quitar de favoritos':'Agregar a favoritos'}
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 22l7.8-8.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
+                  </svg>
                 </button>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </section>
     </PageLayout>

@@ -1,4 +1,6 @@
 const asyncHandler = require('../utils/asyncHandler');
+const ApiResponse = require('../utils/ApiResponse');
+const ApiError = require('../utils/ApiError');
 const { Exercise, UserExercise } = require('../models');
 
 const getExercises = asyncHandler(async (req, res) => {
@@ -9,7 +11,8 @@ const getExercises = asyncHandler(async (req, res) => {
 
   const exercises = await Exercise.findAll({
     where,
-    order: [['createdAt', 'ASC']]
+    // Ordenamos por título para evitar depender de columnas de timestamp que pueden faltar en algunas DB
+    order: [['title', 'ASC']]
   });
 
   res.json(ApiResponse.success({ exercises }));

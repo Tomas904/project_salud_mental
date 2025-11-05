@@ -39,6 +39,8 @@ const Challenge = sequelize.define('Challenge', {
   }
 }, {
   tableName: 'challenges',
+  // La tabla puede no incluir created_at/updated_at; desactivar para evitar SELECT inválidos
+  timestamps: false,
   indexes: [
     {
       fields: ['is_active']

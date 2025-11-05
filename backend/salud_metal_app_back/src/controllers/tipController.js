@@ -1,4 +1,6 @@
 const asyncHandler = require('../utils/asyncHandler');
+const ApiResponse = require('../utils/ApiResponse');
+const ApiError = require('../utils/ApiError');
 const { Tip, FavoriteTip } = require('../models');
 
 const getTips = asyncHandler(async (req, res) => {
@@ -11,7 +13,8 @@ const getTips = asyncHandler(async (req, res) => {
   const tips = await Tip.findAll({
     where,
     limit: parseInt(limit),
-    order: [['createdAt', 'DESC']]
+    // Evitar ordenar por createdAt ya que la tabla puede no tener timestamps
+    order: [['title', 'ASC']]
   });
 
   const favoriteTips = await FavoriteTip.findAll({
@@ -35,7 +38,8 @@ const getFavorites = asyncHandler(async (req, res) => {
   const favorites = await FavoriteTip.findAll({
     where: { userId },
     include: [{ model: Tip, as: 'tip' }],
-    order: [['createdAt', 'DESC']]
+    // Ordenamos por el título del tip incluido para consistencia en UI
+    order: [[{ model: Tip, as: 'tip' }, 'title', 'ASC']]
   });
 
   res.json(ApiResponse.success({ favorites }));

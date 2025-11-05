@@ -29,7 +29,9 @@ const Tip = sequelize.define('Tip', {
   }
 }, {
   tableName: 'tips',
-  updatedAt: false,
+  // En algunos entornos la tabla no tiene created_at/updated_at
+  // Desactivamos timestamps para evitar selects/inserts inválidos
+  timestamps: false,
   indexes: [
     {
       fields: ['category']

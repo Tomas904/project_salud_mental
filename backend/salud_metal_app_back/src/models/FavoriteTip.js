@@ -27,7 +27,8 @@ const FavoriteTip = sequelize.define('FavoriteTip', {
   }
 }, {
   tableName: 'favorite_tips',
-  updatedAt: false,
+  // Evitamos depender de created_at/updated_at
+  timestamps: false,
   indexes: [
     {
       unique: true,

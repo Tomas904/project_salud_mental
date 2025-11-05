@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 
 export default function TopbarUser(){
   const { user, logout } = useAuth()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -41,8 +43,8 @@ export default function TopbarUser(){
             <div className="um-name">{user?.name ?? 'Usuario'}</div>
             <div className="um-email">{user?.email ?? ''}</div>
           </div>
-          <button type="button" className="user-menu-item" role="menuitem" onClick={() => setOpen(false)}>
-            Perfil (próximamente)
+          <button type="button" className="user-menu-item" role="menuitem" onClick={() => { setOpen(false); navigate('/profile') }}>
+            Perfil
           </button>
           <hr className="user-menu-sep" />
           <button type="button" className="user-menu-item user-menu-danger" role="menuitem" onClick={() => { logout(); setOpen(false) }}>

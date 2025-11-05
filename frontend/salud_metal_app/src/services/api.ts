@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { AxiosError, AxiosRequestConfig } from "axios";
+import { notifyApiError } from "../utils/notify.ts";
 
 const BASE_URL =
   (import.meta as any)?.env?.VITE_API_BASE_URL ||
@@ -79,7 +80,11 @@ api.interceptors.response.use(
         return Promise.reject(refreshErr);
       }
     }
-
+    // Mostrar errores globales para otros estados (4xx/5xx) salvo que se omita explícitamente
+    try {
+      const skip = (originalRequest?.headers as any)?.["x-skip-error-toast"] === "1";
+      if (!skip) notifyApiError(error);
+    } catch {}
     return Promise.reject(error);
   }
 );

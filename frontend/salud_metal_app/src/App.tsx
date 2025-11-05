@@ -10,6 +10,7 @@ import Graph from './features/graph/Graph'
 import Challenges from './features/challenges/Challenges'
 import Tips from './features/tips/Tips'
 import Exercises from './features/exercises/Exercises'
+import Profile from './features/profile/Profile'
 // Vistas eliminadas: Medallas, Notificaciones, Estadísticas, Buscar
 
 export default function App() {
@@ -40,6 +41,7 @@ export default function App() {
       <Route path="/challenges" element={<ProtectedRoute><Challenges /></ProtectedRoute>} />
       <Route path="/tips" element={<ProtectedRoute><Tips /></ProtectedRoute>} />
       <Route path="/exercises" element={<ProtectedRoute><Exercises /></ProtectedRoute>} />
+  <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
   { /* Rutas eliminadas: /medals, /notifications, /stats/*, /search */ }
 
       <Route path="*" element={<Navigate to="/login" replace />} />

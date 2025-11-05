@@ -59,6 +59,9 @@ const UserChallenge = sequelize.define('UserChallenge', {
   }
 }, {
   tableName: 'user_challenges',
+  // La tabla no tiene columnas created_at/updated_at en algunos entornos
+  // Evitamos que Sequelize las espere desactivando timestamps
+  timestamps: false,
   indexes: [
     {
       fields: ['user_id']

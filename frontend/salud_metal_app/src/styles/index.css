@@ -370,6 +370,135 @@ body{
 	.graph-card svg{ height:220px }
 }
 
+/* Exercises cards */
+.exercise-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:22px }
+.exercise-card{ background:#fff; border:1px solid #eef2f6; border-radius:16px; box-shadow: 0 12px 28px rgba(16,24,40,0.05); padding:22px; display:flex; flex-direction:column; gap:12px; align-items:flex-start }
+.exercise-icon{ width:48px; height:48px; border-radius:999px; background:#eef2ff; display:flex; align-items:center; justify-content:center; box-shadow: inset 0 0 0 6px #fff }
+.exercise-icon span{ font-size:22px }
+.exercise-title{ font-weight:700; color:#0f172a }
+.exercise-desc{ font-size:13px; color:#64748b; line-height:1.5; min-height:38px }
+.exercise-btn{ background:#2563eb; color:#fff; border:none; border-radius:10px; padding:10px 16px; font-weight:600; cursor:pointer; margin-top:8px }
+.exercise-btn:hover{ background:#1d4ed8 }
+
+/* Exercise toolbar and chips */
+.ex-toolbar{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px }
+.ex-tabs{ display:flex; gap:8px; flex-wrap:wrap }
+.chip{ background:#f1f5f9; color:#334155; border:1px solid #e5e7eb; padding:6px 10px; border-radius:999px; font-size:12px; cursor:pointer }
+.chip.is-active{ background:#e0e7ff; border-color:#c7d2fe; color:#3730a3 }
+.chip--type{ text-transform:capitalize }
+.chip--time{ background:#ecfdf5; border-color:#d1fae5; color:#065f46 }
+.ex-search-wrap{ min-width:220px }
+.ex-search{ width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:10px; outline:none }
+.ex-search:focus{ box-shadow: 0 0 0 4px rgba(43,120,246,0.08); border-color: var(--primary) }
+
+.exercise-meta{ display:flex; gap:8px; align-items:center }
+.exercise-actions{ display:flex; gap:8px; margin-top:6px }
+.ghost-btn{ background:transparent; border:1px solid #e5e7eb; color:#334155; border-radius:10px; padding:10px 12px; font-weight:600; cursor:pointer }
+.ghost-btn:hover{ background:#f8fafc }
+
+/* Skeletons */
+.skeleton-grid .skeleton-card{ height:156px; position:relative; overflow:hidden; background:linear-gradient(180deg,#f8fafc,#eef2f7) }
+.skeleton-card::after{ content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.6), rgba(255,255,255,0)); transform: translateX(-100%); animation: shimmer 1.4s infinite }
+@keyframes shimmer{ 100%{ transform: translateX(100%) } }
+
+/* Detail styling */
+.exercise-detail-header{ display:flex; align-items:center; gap:14px }
+.exercise-steps{ list-style:none; padding:0; margin:14px 0 0 0; display:grid; gap:10px }
+.exercise-steps li{ display:flex; gap:10px; align-items:flex-start; background:#fff; border:1px solid #eef2f6; border-radius:10px; padding:10px 12px }
+.exercise-steps .step-index{ width:22px; height:22px; border-radius:999px; background:#e5e7eb; color:#111827; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:700 }
+.exercise-detail-actions{ display:flex; gap:8px; margin-top:14px }
+
+@media (max-width:1000px){ .exercise-grid{ grid-template-columns: repeat(2, 1fr) } }
+@media (max-width:640px){ .exercise-grid{ grid-template-columns: 1fr } }
+
+/* Tips list */
+.tips-list{ list-style:none; padding:0; margin:0; display:grid; gap:12px }
+.tip-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; background:#fff; border:1px solid #eef2f6; border-radius:12px; padding:16px 18px; box-shadow: 0 8px 20px rgba(16,24,40,0.04) }
+.tip-content{ display:flex; flex-direction:column; gap:6px }
+.tip-title{ font-weight:700; color:#0f172a }
+.tip-desc{ font-size:13px; color:#64748b }
+.heart-btn{ width:36px; height:36px; border-radius:999px; background:#f8fafc; color:#94a3b8; border:1px solid #e5e7eb; display:inline-flex; align-items:center; justify-content:center; cursor:pointer }
+.heart-btn:hover{ background:#eef2ff; color:#64748b }
+.heart-btn.is-fav{ background:#fee2e2; color:#ef4444; border-color:#fecaca }
+
+/* Challenges view */
+.challenge-header{ font-weight:700; color:#0f172a; margin-bottom:8px }
+.challenge-desc{ font-size:13px; color:#475569; margin-bottom:10px }
+.challenge-progress{ display:flex; align-items:center; gap:10px }
+.challenge-bar{ flex:1; height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden }
+.challenge-fill{ height:100%; background:#2563eb; border-radius:999px; width:0; transition: width .4s ease }
+.challenge-days{ font-size:12px; color:#64748b }
+.week-strip{ display:flex; gap:6px; margin-top:8px }
+.week-strip .week-day{ width:14px; height:14px; border-radius:4px; background:#e5e7eb }
+.week-strip .week-day.is-done{ background:#22c55e; box-shadow: 0 0 0 2px rgba(34,197,94,0.25) inset }
+.medals-grid{ display:flex; gap:38px; align-items:center; padding-top:6px }
+.medal-item{ display:flex; flex-direction:column; align-items:center; gap:8px }
+.medal{ width:72px; height:72px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-size:32px; color:#fff; background:linear-gradient(180deg,#fcd34d,#f59e0b); box-shadow: 0 8px 24px rgba(245,158,11,0.35) }
+.medal.is-earned{ opacity:1 }
+.medal:not(.is-earned){ background:linear-gradient(180deg,#e5e7eb,#cbd5e1); color:#94a3b8; box-shadow:none }
+.medal-label{ font-size:12px; color:#94a3b8; text-align:center; max-width:120px }
+
+/* Available challenges grid/cards */
+.challenge-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:18px }
+.challenge-card{ background:#fff; border:1px solid #eef2f6; border-radius:16px; box-shadow: 0 12px 28px rgba(16,24,40,0.05); padding:18px; display:flex; flex-direction:column; gap:10px; position:relative; overflow:hidden }
+.challenge-card::before{ content:""; position:absolute; inset:0; background: radial-gradient(120px 60px at -20% -20%, rgba(59,130,246,0.06), transparent 60%), radial-gradient(120px 60px at 120% 120%, rgba(59,130,246,0.05), transparent 60%); pointer-events:none }
+.challenge-card:hover{ box-shadow: 0 20px 44px rgba(16,24,40,0.10); border-color: rgba(59,130,246,0.18) }
+.challenge-card-head{ display:flex; align-items:center; gap:10px }
+.challenge-emoji{ width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:#eef2ff; box-shadow: inset 0 0 0 6px #fff; font-size:20px; flex:0 0 auto }
+.challenge-title{ margin:0; font-weight:700; color:#0f172a; font-size:15px }
+.challenge-badges{ display:flex; gap:8px; flex-wrap:wrap }
+.badge{ font-size:11px; padding:4px 8px; border-radius:999px; background:#f1f5f9; border:1px solid #e5e7eb; color:#334155; text-transform:capitalize }
+.badge--weekly{ background:#eff6ff; border-color:#dbeafe; color:#1d4ed8 }
+.badge--monthly{ background:#f5f3ff; border-color:#ede9fe; color:#6d28d9 }
+.badge--daily{ background:#ecfdf5; border-color:#d1fae5; color:#047857 }
+.challenge-actions{ margin-top:auto; display:flex }
+.challenge-btn{ background:#2563eb; color:#fff; border:none; border-radius:10px; padding:10px 14px; font-weight:700; cursor:pointer }
+.challenge-btn:hover{ background:#1d4ed8 }
+
+@media (max-width:1000px){ .challenge-grid{ grid-template-columns: repeat(2, 1fr) } }
+@media (max-width:640px){ .challenge-grid{ grid-template-columns: 1fr } }
+
+@media (max-width:900px){
+	.medals-grid{ gap:18px }
+	.medal{ width:60px; height:60px; font-size:28px }
+}
+
+/* Profile */
+.profile-banner{ position:relative; background: linear-gradient(90deg,#3b82f6,#7c3aed); border-radius:12px; padding:24px; color:#fff; display:grid; grid-template-columns: auto 1fr auto auto; align-items:center; gap:16px }
+.profile-avatar{ width:80px; height:80px; border-radius:999px; border:4px solid #fff; background:#2563eb; display:flex; align-items:center; justify-content:center; box-shadow: 0 12px 28px rgba(16,24,40,0.15) }
+.profile-avatar span{ font-weight:800; font-size:26px }
+.profile-info{ display:flex; flex-direction:column; gap:6px }
+.profile-name{ font-weight:800; font-size:18px }
+.profile-email{ font-size:13px; opacity:.95 }
+.profile-since{ font-size:12px; opacity:.85 }
+.profile-stats{ display:flex; gap:24px; margin-left:auto }
+.pstat{ text-align:center }
+.pstat-value{ font-size:22px; font-weight:800 }
+.pstat-label{ font-size:11px; opacity:.9 }
+.profile-actions{ margin-left:16px }
+
+.settings-list{ display:flex; flex-direction:column; gap:2px }
+.setting-row{ background:#fff; border:1px solid #eef2f6; border-radius:12px; padding:14px 16px; display:flex; align-items:center; justify-content:space-between }
+.setting-row + .setting-row{ margin-top:10px }
+.setting-info{ display:flex; flex-direction:column; gap:4px; text-align:left }
+.setting-title{ font-weight:700; color:#0f172a }
+.setting-desc{ font-size:12px; color:#64748b }
+.setting-row--btn{ cursor:pointer; text-align:left }
+.setting-row--btn:hover{ background:#f8fafc }
+.setting-arrow{ font-size:18px; color:#94a3b8 }
+
+/* Switch */
+.switch{ width:48px; height:28px; border-radius:999px; background:#e5e7eb; border:1px solid #e5e7eb; position:relative; cursor:pointer; padding:0; display:inline-flex; align-items:center }
+.switch .switch-handle{ width:22px; height:22px; border-radius:999px; background:#fff; box-shadow: 0 2px 6px rgba(16,24,40,0.2); transform: translateX(3px); transition: transform .2s ease }
+.switch.is-on{ background:#3b82f6; border-color:#3b82f6 }
+.switch.is-on .switch-handle{ transform: translateX(23px) }
+
+@media (max-width:900px){
+	.profile-banner{ grid-template-columns: auto 1fr; gap:12px }
+	.profile-stats{ grid-column: 1 / -1; justify-content:space-between; margin-left:0; margin-top:6px }
+	.profile-actions{ grid-column: 1 / -1; justify-self:end }
+}
+
 .sidebar .app-brand{ display:flex; align-items:center; gap:8px }
 .app-brand .app-name{ font-weight:700; color:#0b1220 }
 .app-brand .app-tag{ font-size:11px; color:#64748b }

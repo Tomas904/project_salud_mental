@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PageLayout from '../../components/layout/PageLayout'
 import { journalService, type JournalEntry } from '../../services/journal'
 
 export default function Journal(){
+  const navigate = useNavigate()
   const [entries, setEntries] = useState<JournalEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [content, setContent] = useState('')
@@ -13,7 +15,15 @@ export default function Journal(){
     try{
       const res = await journalService.list({ limit: 12, page: 1 })
       setEntries(res.entries)
-    }catch(e:any){ setError(e?.message || 'Error cargando entradas') }
+    }catch(e:any){
+      const status = e?.response?.status
+      if(status === 401){
+        // No hay token o expiró: redirige a login
+        navigate('/login', { replace:true })
+        return
+      }
+      setError(e?.message || 'Error cargando entradas')
+    }
     finally{ setLoading(false) }
   }
 
@@ -33,7 +43,11 @@ export default function Journal(){
       await journalService.create({ title: deriveTitle(content), content, mood: 'positivo', date: today })
       setContent('')
       await load()
-    }catch(e:any){ setError(e?.message || 'No se pudo guardar tu entrada') }
+    }catch(e:any){
+      const status = e?.response?.status
+      if(status === 401){ navigate('/login', { replace:true }); return }
+      setError(e?.message || 'No se pudo guardar tu entrada')
+    }
   }
 
   const fmtDate = (d: string) => {

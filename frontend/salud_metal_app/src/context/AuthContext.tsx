@@ -12,6 +12,7 @@ type AuthContextType = {
   login: (email: string, password: string) => Promise<void>
   register: (payload: { name: string; email: string; password: string }) => Promise<void>
   logout: () => void
+  refreshUser: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -33,6 +34,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Sin token: estado desautenticado; no auto-login de desarrollo
     }
   }, [token])
+
+  const refreshUser = async () => {
+    const u = await usersService.getMe()
+    setUser(u)
+  }
 
   const login = async (email: string, password: string) => {
     const { token: t, user: u } = await authService.login({ email, password })
@@ -60,7 +66,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated: !!token, login, register, logout }}>
+    <AuthContext.Provider value={{ user, token, isAuthenticated: !!token, login, register, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   )
