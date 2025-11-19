@@ -1,4 +1,10 @@
 {
-  "build": "cd backend/salud_metal_app_back && npm install",
-  "start": "cd backend/salud_metal_app_back && npm start"
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "startCommand": "cd backend/salud_metal_app_back && npm start",
+    "buildCommand": "cd backend/salud_metal_app_back && npm install"
+  }
 }
+
