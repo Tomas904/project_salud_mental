@@ -1,10 +1,4 @@
 {
-  "build": {
-    "command": "cd backend/salud_metal_app_back && npm install"
-  },
-  "start": {
-    "command": "cd backend/salud_metal_app_back && npm start"
-  },
   "nixpacks": {
     "phases": {
       "setup": {

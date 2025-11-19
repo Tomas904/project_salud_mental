@@ -1,2 +1,9 @@
 [build]
 builder = "nixpacks"
+buildCommand = "cd backend/salud_metal_app_back && npm install"
+
+[start]
+startCommand = "cd backend/salud_metal_app_back && npm start"
+
+[variables]
+NIXPACKS_NODE_VERSION = "18"
