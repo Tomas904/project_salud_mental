@@ -25,17 +25,16 @@ const sequelize = new Sequelize(
   }
 );
 
-// Test connection
+// Test connection + sync
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
     console.log('✅ Database connected successfully');
+
+    // Sync models in all environments (including Railway)
+    await sequelize.sync({ alter: true });
+    console.log('✅ Database synchronized (sync/alter)');
     
-    // Sync models in development
-    if (config.env === 'development') {
-      await sequelize.sync();
-      console.log('✅ Database synchronized');
-    }
   } catch (error) {
     console.error('❌ Unable to connect to database:', error);
     process.exit(1);
