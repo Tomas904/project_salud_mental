@@ -8,6 +8,7 @@ const routes = require('./routes');
 const { errorHandler, notFound } = require('./middlewares/errorHandler');
 const { limiter } = require('./middlewares/rateLimiter');
 const logger = require('./middlewares/logger');
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 
 const app = express();
 
@@ -16,8 +17,9 @@ app.use(helmet());
 
 // CORS
 app.use(cors({
-  origin: config.cors.origin,
-  credentials: true
+  origin: [FRONTEND_URL],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 }));
 
 // Body parser
