@@ -1,4 +1,8 @@
-require('dotenv').config();
+// Solo cargar .env en desarrollo, nunca en producción
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 
 module.exports = {
   env: process.env.NODE_ENV || 'development',
