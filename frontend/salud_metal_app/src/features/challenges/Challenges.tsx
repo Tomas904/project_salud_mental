@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import PageLayout from '../../components/layout/PageLayout'
 import { challengesService, type Challenge, type UserChallenge } from '../../services/challenges'
 import Swal from 'sweetalert2'
@@ -100,8 +100,17 @@ export default function Challenges(){
 
   const current = mine.find(m => !m.isCompleted)
   const daysDone = current?.currentDay ?? 0
-  const daysGoal = 7
+  const daysGoal = current?.challenge?.durationDays ?? 7
   const pctWeek = Math.max(0, Math.min(100, Math.round((daysDone / daysGoal) * 100)))
+
+  // Progreso visual en anillo
+  const progressCircle = useMemo(()=>{
+    const r = 42
+    const circ = 2 * Math.PI * r
+    const pct = (current?.progress ?? 0) / 100
+    const dash = circ * pct
+    return { r, circ, dash }
+  },[current?.progress])
 
   const medals = [
     { key: 'first-week', label: 'Primera Semana', earned: daysDone >= 1 },
@@ -128,11 +137,31 @@ export default function Challenges(){
         ) : current ? (
           <>
             <div className="challenge-desc">{current.challenge?.description || current.challenge?.title}</div>
-            <div className="challenge-progress">
-              <div className="challenge-bar">
-                <div className="challenge-fill" style={{width: pctWeek + '%'}} />
+            <div style={{display:'flex', gap:18, alignItems:'center', flexWrap:'wrap'}}>
+              <div className="challenge-progress" style={{flex:1, minWidth:200}}>
+                <div className="challenge-bar">
+                  <div className="challenge-fill" style={{width: pctWeek + '%'}} />
+                </div>
+                <div className="challenge-days">{daysDone}/{daysGoal} días</div>
               </div>
-              <div className="challenge-days">{daysDone}/{daysGoal} días</div>
+              <div style={{width:110, height:110, position:'relative'}} aria-label="Progreso total del reto">
+                <svg width={110} height={110}>
+                  <circle cx={55} cy={55} r={progressCircle.r} stroke="#e2e8f0" strokeWidth={10} fill="none" />
+                  <circle
+                    cx={55}
+                    cy={55}
+                    r={progressCircle.r}
+                    stroke="#2563eb"
+                    strokeWidth={10}
+                    fill="none"
+                    strokeDasharray={progressCircle.circ}
+                    strokeDashoffset={progressCircle.circ - progressCircle.dash}
+                    style={{transition:'stroke-dashoffset .6s ease'}}
+                    strokeLinecap="round"
+                  />
+                  <text x="55" y="60" textAnchor="middle" fontSize="20" fontWeight="700" fill="#0f172a">{Math.round(current?.progress ?? 0)}%</text>
+                </svg>
+              </div>
             </div>
             <div className="week-strip" aria-label="Progreso semanal">
               {Array.from({length: daysGoal}).map((_,i)=> (
@@ -179,8 +208,9 @@ export default function Challenges(){
                     <span className="badge" title={`Duración de ${ch.durationDays} días`}>{ch.durationDays} días</span>
                     {ch.type && <span className={`badge badge--${ch.type}`}>{ch.type}</span>}
                   </div>
-                  <div className="challenge-actions">
+                  <div className="challenge-actions" style={{justifyContent:'space-between', width:'100%'}}>
                     <button className="challenge-btn" onClick={()=> start(ch.id)}>Iniciar</button>
+                    <button className="ghost-btn" onClick={()=> Swal.fire({title:ch.title, text: ch.description, icon:'info'})}>Ver</button>
                   </div>
                 </article>
               ))}

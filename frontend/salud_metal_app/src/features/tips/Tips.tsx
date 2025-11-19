@@ -1,12 +1,37 @@
 import { useEffect, useState } from 'react'
 import PageLayout from '../../components/layout/PageLayout'
 import { tipsService, type Tip } from '../../services/tips'
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.min.css'
 
 export default function Tips(){
   const [tips, setTips] = useState<Tip[]>([])
   const [favorites, setFavorites] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   // filtro eliminado
+
+  // Menú pequeño de videos recomendados (curado, sin llamadas externas)
+  const videos: Array<{ id: string; title: string; minutes?: number }> = [
+    { id: 'ZToicYcHIOU', title: 'Respiración consciente (Headspace)', minutes: 3 },
+    { id: 'inpok4MKVLM', title: 'Meditación guiada para ansiedad', minutes: 10 },
+    { id: 'O-6f5wQXSu8', title: 'Estiramientos suaves para iniciar el día', minutes: 7 },
+    { id: 'U9YKY7fdwyg', title: 'Mindfulness en 5 minutos', minutes: 5 },
+    { id: 'Jyy0ra2WcQQ', title: 'Técnica 4-7-8 para dormir mejor', minutes: 4 },
+  ]
+
+  const openVideo = async (v: { id: string; title: string }) => {
+    const html = `
+      <div style="position:relative;padding-top:56.25%;width:100%;">
+        <iframe
+          src="https://www.youtube.com/embed/${v.id}?autoplay=1"
+          title="${v.title.replace(/"/g,'&quot;')}"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:10px;"
+        ></iframe>
+      </div>`
+  await Swal.fire({ title: v.title, html, width: 'min(92vw, 820px)', showConfirmButton: false, showCloseButton: true })
+  }
 
   const load = async () => {
     setLoading(true)
@@ -31,6 +56,27 @@ export default function Tips(){
 
   return (
     <PageLayout title="Consejos de Bienestar">
+  <section className="stat-card video-carousel" style={{marginBottom:16}}>
+        <h3 className="stat-card-title">Videos recomendados</h3>
+        <div className="video-menu" role="list" aria-label="Videos relacionados">
+          {videos.map(v => (
+            <button
+              key={v.id}
+              role="listitem"
+              className="video-item"
+              onClick={()=> openVideo(v)}
+              title={v.title}
+            >
+              <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt="" className="video-thumb" loading="lazy" />
+              <div className="video-meta">
+                <div className="video-title">{v.title}</div>
+                {v.minutes ? <div className="video-sub">{v.minutes} min</div> : null}
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
+
       <section className="stat-card">
         {loading ? <div className="chart-placeholder">Cargando...</div> : (
           <ul className="tips-list">

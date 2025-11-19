@@ -8,19 +8,35 @@ import { showApiError } from '../../utils/notify.ts'
 export default function Exercises(){
   const [list, setList] = useState<Exercise[]>([])
   const [loading, setLoading] = useState(true)
+  const [history, setHistory] = useState<any[]>([])
+  const [historyLoading, setHistoryLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [sort, setSort] = useState<'title'|'duration'>('title')
   const [typeFilter, setTypeFilter] = useState<'all' | Exercise['type']>('all')
   const [query, setQuery] = useState('')
 
   const load = async (type: 'all' | Exercise['type'] = typeFilter) => {
     setLoading(true)
+    setError(null)
     try{
       const params = type === 'all' ? undefined : { type }
       const l = await exercisesService.list(params)
       setList(l.exercises)
-    }finally{ setLoading(false) }
+    }catch(e:any){ setError('No se pudieron cargar los ejercicios'); }
+    finally{ setLoading(false) }
+  }
+
+  const loadHistory = async () => {
+    setHistoryLoading(true)
+    try{
+      const h = await exercisesService.history({ limit: 200 })
+      setHistory(h.history || [])
+    }catch{}
+    finally{ setHistoryLoading(false) }
   }
 
   useEffect(()=>{ load(typeFilter) }, [typeFilter])
+  useEffect(()=>{ loadHistory() },[])
 
   const showDetails = async (ex: Exercise) => {
     try{
@@ -72,8 +88,19 @@ export default function Exercises(){
 
       if(!isConfirmed) return
       const durationMinutes = Math.max(1, Math.min(90, Number(durationStr) || exDurationGuess(d)))
-      await exercisesService.complete(ex.id, { durationMinutes, rating: 5 }, { skipErrorToast: true })
-      await Swal.fire({ icon:'success', title:'¡Listo!', text:'Ejercicio completado 🎉', timer: 1400, showConfirmButton:false })
+      // Optimismo: añadir entrada temporal en history
+      const temp = { id: 'temp-'+Date.now(), exerciseId: ex.id, durationMinutes, completedAt: new Date().toISOString() }
+      setHistory(h => [temp, ...h])
+      try{
+        await exercisesService.complete(ex.id, { durationMinutes, rating: 5 }, { skipErrorToast: true })
+        await Swal.fire({ icon:'success', title:'¡Listo!', text:'Ejercicio completado 🎉', timer: 1400, showConfirmButton:false })
+        // recargar history para datos reales
+        loadHistory()
+      }catch(err:any){
+        // revertir temp
+        setHistory(h => h.filter(x => x !== temp))
+        throw err
+      }
     }catch(err:any){
       await showApiError(err, { title: 'No se pudo completar el ejercicio' })
     }
@@ -88,13 +115,35 @@ export default function Exercises(){
   }
 
   const filtered = useMemo(() => {
-    if(!query.trim()) return list
-    const q = query.toLowerCase()
-    return list.filter(ex => (
-      ex.title.toLowerCase().includes(q) ||
-      ex.description.toLowerCase().includes(q)
-    ))
-  }, [list, query])
+    let base = list
+    if(query.trim()){
+      const q = query.toLowerCase()
+      base = base.filter(ex => (
+        ex.title.toLowerCase().includes(q) ||
+        ex.description.toLowerCase().includes(q)
+      ))
+    }
+    if(sort === 'title') base = [...base].sort((a,b)=> a.title.localeCompare(b.title))
+    if(sort === 'duration') base = [...base].sort((a,b)=> (a.durationMinutes ?? 0) - (b.durationMinutes ?? 0))
+    return base
+  }, [list, query, sort])
+
+  // streak: contar días consecutivos con al menos una entrada
+  const streak = useMemo(()=>{
+    const dates = Array.from(new Set(history.map(h => (h.completedAt || h.date || h.createdAt || '').slice(0,10)))).sort((a,b)=> b.localeCompare(a))
+    let count = 0
+    let cursor = new Date()
+    const fmt = (d:Date)=> d.toISOString().slice(0,10)
+    for(const day of dates){
+      if(day === fmt(cursor)){
+        count++
+        cursor.setDate(cursor.getDate()-1)
+      } else break
+    }
+    return count
+  },[history])
+
+  const totalCompleted = history.length
 
   const TypeChip = ({t,label}:{t:'all'|Exercise['type']; label:string}) => (
     <button
@@ -107,7 +156,7 @@ export default function Exercises(){
   return (
     <PageLayout title="Ejercicios de Bienestar">
       <section className="stat-card" style={{marginBottom:16}}>
-        <div className="ex-toolbar">
+        <div className="ex-toolbar" style={{flexWrap:'wrap'}}>
           <div className="ex-tabs" role="tablist" aria-label="Filtrar por tipo">
             <TypeChip t="all" label="Todos" />
             <TypeChip t="meditacion" label="Meditación" />
@@ -123,7 +172,30 @@ export default function Exercises(){
               aria-label="Buscar ejercicios"
             />
           </div>
+          <div style={{display:'flex', gap:8}}>
+            <button className={`chip ${sort==='title'?'is-active':''}`} onClick={()=> setSort('title')}>A-Z</button>
+            <button className={`chip ${sort==='duration'?'is-active':''}`} onClick={()=> setSort('duration')}>Duración</button>
+          </div>
         </div>
+
+        <div style={{display:'flex', gap:14, flexWrap:'wrap', marginBottom:12}} aria-label="Resumen de progreso">
+          <div className="summary-card" style={{flex:'1 1 160px', minWidth:160}}>
+            <div className="summary-title">Completados</div>
+            <div className="summary-value" style={{fontSize:28}}>{totalCompleted}</div>
+            <div className="summary-sub">Total en historial{historyLoading?'…':''}</div>
+          </div>
+          <div className="summary-card" style={{flex:'1 1 160px', minWidth:160}}>
+            <div className="summary-title">Racha</div>
+            <div className="summary-value" style={{fontSize:28}}>{streak}d</div>
+            <div className="summary-sub">Días consecutivos</div>
+          </div>
+        </div>
+
+        {error && !loading && (
+          <div style={{marginBottom:12, background:'#fef2f2', color:'#b91c1c', padding:'10px 12px', borderRadius:8, fontSize:13}}>
+            {error} <button onClick={()=> load()} style={{marginLeft:8, background:'transparent', border:'none', color:'#b91c1c', textDecoration:'underline', cursor:'pointer'}}>Reintentar</button>
+          </div>
+        )}
 
         {loading ? (
           <div className="exercise-grid skeleton-grid">

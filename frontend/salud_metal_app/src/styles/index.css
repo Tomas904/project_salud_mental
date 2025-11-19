@@ -434,6 +434,28 @@ body{
 .heart-btn:hover{ background:#eef2ff; color:#64748b }
 .heart-btn.is-fav{ background:#fee2e2; color:#ef4444; border-color:#fecaca }
 
+/* Tiny video menu for Tips */
+.video-menu{ display:grid; grid-auto-flow: column; grid-auto-columns: clamp(140px, 20vw, 190px); gap:8px; overflow-x:auto; overflow-y:hidden; padding-bottom:6px; scroll-snap-type: x proximity; -ms-overflow-style: auto; /* IE/Edge */ scrollbar-width: thin; /* Firefox */ width:100%; max-width:100%; box-sizing:border-box; }
+.video-item{ background:#fff; border:1px solid #eef2f6; border-radius:12px; padding:6px; display:flex; align-items:center; gap:8px; min-width:0; box-sizing:border-box; cursor:pointer; box-shadow: 0 8px 18px rgba(16,24,40,0.04); scroll-snap-align: start; max-width:100%; }
+.video-item:hover{ box-shadow: 0 14px 30px rgba(16,24,40,0.08) }
+.video-thumb{ width:80px; aspect-ratio: 16/9; object-fit:cover; border-radius:8px; background:#f1f5f9; flex:0 0 auto }
+.video-meta{ display:flex; flex-direction:column; gap:4px; text-align:left }
+.video-title{ font-weight:700; color:#0f172a; font-size:13px; line-height:1.2; display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden }
+.video-sub{ font-size:12px; color:#64748b }
+
+/* ocultar la barra de scroll visual pero mantener la capacidad de desplazamiento */
+.video-menu::-webkit-scrollbar{ height:8px }
+.video-menu::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:999px }
+.video-menu::-webkit-scrollbar-track{ background:transparent }
+
+@media (max-width:600px){
+	.video-menu{ grid-auto-columns: clamp(180px, 70vw, 230px) }
+	.video-thumb{ width:96px }
+}
+
+/* Aplicar overflow oculto sólo al contenedor del carrusel para evitar overflow global */
+.video-carousel{ overflow-x: hidden }
+
 /* Challenges view */
 .challenge-header{ font-weight:700; color:#0f172a; margin-bottom:8px }
 .challenge-desc{ font-size:13px; color:#475569; margin-bottom:10px }
