@@ -16,7 +16,7 @@ export default function Register() {
   const onSubmit = async (data: FormData) => {
     try {
       await signup({ name: data.name, email: data.email, password: data.password })
-      navigate('/')
+      navigate('/dashboard')
     } catch (err: any) {
       const api = err?.response?.data
       const details = api?.error?.details
