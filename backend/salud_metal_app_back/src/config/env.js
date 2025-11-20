@@ -3,19 +3,26 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-
 module.exports = {
   env: process.env.NODE_ENV || 'development',
   port: process.env.PORT || 3000,
   
   database: {
+    // En Railway usa DATABASE_URL directamente
+    url: process.env.DATABASE_URL,
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 5432,
     name: process.env.DB_NAME || 'salud_mental_app',
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD,
     dialect: 'postgres',
-    logging: process.env.NODE_ENV === 'development' ? console.log : false
+    logging: process.env.NODE_ENV === 'development' ? console.log : false,
+    dialectOptions: process.env.NODE_ENV === 'production' ? {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    } : {}
   },
   
   jwt: {
@@ -25,7 +32,7 @@ module.exports = {
   },
   
   cors: {
-    origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:3000']
+    origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:5173']
   },
   
   rateLimit: {
@@ -41,3 +48,10 @@ module.exports = {
     from: process.env.EMAIL_FROM
   }
 };
+```
+
+### 4. **Variables de entorno en Vercel (Frontend)**
+
+Ve a Vercel → Tu proyecto → **Settings** → **Environment Variables** y agrega:
+```
+VITE_API_URL=poetic-happiness-production.up.railway.app
