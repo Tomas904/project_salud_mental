@@ -48,10 +48,3 @@ module.exports = {
     from: process.env.EMAIL_FROM
   }
 };
-```
-
-### 4. **Variables de entorno en Vercel (Frontend)**
-
-Ve a Vercel → Tu proyecto → **Settings** → **Environment Variables** y agrega:
-```
-VITE_API_URL=poetic-happiness-production.up.railway.app
